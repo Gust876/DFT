@@ -1,0 +1,10 @@
+.devcontainer/
+data_dir/
+
+*.xyz
+xyz_semi_opt/
+xyz_opt/
+
+.dockerignore
+Dockerfile
+optimization_process.log
