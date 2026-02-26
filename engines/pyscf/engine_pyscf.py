@@ -1,4 +1,4 @@
-from engine_lib.engine_interface import EngineDFT
+from interfaces.engine_interface import EngineDFT
 from pyscf.gto import Mole
 
 

@@ -1,10 +1,12 @@
 .devcontainer/
-data_dir/
+__pycache__/
 
 *.xyz
 xyz_semi_opt/
 xyz_opt/
 
+zip_dir/
+logs/
+
 .dockerignore
 Dockerfile
-optimization_process.log
