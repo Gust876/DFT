@@ -31,7 +31,7 @@ def geometry_optimizer(xyz_file: Path, OPT_DIR: Path) -> None:
             optimizer = factory_optimizer(
                 FactoryOptimizerPySCF(
                     mol=mol,
-                    xc="b3lyp"
+                    xc="m06-2x"
                 )
             )
             dict_optimize = optimizer.opt_geometry(maxsteps=200, verbose=0)

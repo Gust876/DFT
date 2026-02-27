@@ -7,3 +7,4 @@ dependencies:
   - psi4
   - joblib
   - pyscf
+  - geometric
