@@ -1,8 +1,10 @@
-name: base
+name: dft_env
+channels:
+  - conda-forge
+  - psi4
 dependencies:
   - python=3.12.12
   - conda=26.1.0
   - psi4
   - joblib
   - pyscf
-prefix: /opt/conda
