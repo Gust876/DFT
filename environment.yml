@@ -4,7 +4,6 @@ channels:
   - psi4
 dependencies:
   - python=3.12.12
-  - conda=26.1.0
   - psi4
   - joblib
   - pyscf
