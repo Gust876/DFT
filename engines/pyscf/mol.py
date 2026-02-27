@@ -15,9 +15,11 @@ class MolPySCF(MolProduct):
 
         atom_coordinates = "\n".join(xyz_file.strip().splitlines()[2:])
 
-        mol = gto.M(
-            atom = atom_coordinates,
-            basis = basis
-        )
+        mol = gto.Mole()
+        mol.atom = atom_coordinates
+        mol.basis = basis
+        mol.max_memory = 8000
+        mol.build()
+
         return mol
     
