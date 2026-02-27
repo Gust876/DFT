@@ -1,10 +1,9 @@
-name: dft_env
+name: dft
 channels:
   - conda-forge
-  - psi4
 dependencies:
-  - python=3.12.12
-  - psi4
+  - python=3.10
   - joblib
+  - psi4
   - pyscf
   - geometric

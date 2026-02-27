@@ -43,7 +43,7 @@ def geometry_optimizer(xyz_file: Path, OPT_DIR: Path) -> None:
                 logging.info(f"{xyz_file.name} convergida")
                 
             else:
-                logging.warning(f"{xyz_file.name} - error: {dict_optimize["error"]}")
+                logging.warning(f"{xyz_file.name} - error: {dict_optimize['error']}")
 
     except Exception as error:
         logging.error(f"{xyz_file.name} falhou: {str(error)}")

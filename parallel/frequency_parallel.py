@@ -35,7 +35,7 @@ def frequency(xyz_file: Path, OUTPUT_DIR: Path) -> None:
             freq_obj = factory_frequency(
                 FactoryFrequencyPySCF(
                     mol=mol,
-                    xc="b3lyp"
+                    xc="m06-2x"
                 )
             )
             result = freq_obj.vibrational_frequency()
