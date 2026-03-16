@@ -36,10 +36,10 @@ def geometry_optimizer(xyz_file: Path, OPT_DIR: Path) -> None:
             )
             dict_optimize = optimizer.opt_geometry(maxsteps=200, verbose=0)
 
-            converged = dict_optimize["converged"]
+            converged = dict_optimize['converged']
             if converged:
 
-                opt_xyz_file.write_text(dict_optimize["xyz_data"])
+                opt_xyz_file.write_text(dict_optimize['xyz_data'])
                 logging.info(f"{xyz_file.name} convergida")
                 
             else:
