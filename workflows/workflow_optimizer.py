@@ -1,4 +1,5 @@
 from parallel.optimizer_parallel import geometry_optimizer
+from utils.prompt import prompt_strategy
 from joblib import Parallel, delayed
 from pathlib import Path
 import logging
@@ -19,13 +20,15 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-
 try:
-    Parallel(n_jobs=8)(
+    strategy = prompt_strategy()
+
+    Parallel(n_jobs=4)(
         delayed(geometry_optimizer)
         (
             xyz_file=xyz_file,
-            OPT_DIR=OPT_DIR
+            OPT_DIR=OPT_DIR,
+            **strategy
         )
         for xyz_file in XYZ_DIR.iterdir()
     )

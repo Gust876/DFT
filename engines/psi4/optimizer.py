@@ -13,7 +13,7 @@ class FactoryOptimizerPsi4(FactoryOptimizer):
 
 class OptimizerPsi4(OptimizerProduct):
      
-     def opt_geometry(self, xyz_file: Path):
+     def opt_geometry(self, xyz_file: Path, xc: str, basis: str):
         psi4.set_memory("500 MB")
         
         try:
@@ -23,7 +23,7 @@ class OptimizerPsi4(OptimizerProduct):
             )
 
             psi4.set_options({"reference": "rhf"})
-            psi4.optimize("scf/cc-pvdz", molecule=mol)
+            psi4.optimize(f"{xc}/{basis}", molecule=mol)
 
             xyz_string = f"{mol.natom()} \n {mol.save_string_xyz()}"
             return {

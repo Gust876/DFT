@@ -18,7 +18,7 @@ class MolPySCF(MolProduct):
         mol = gto.Mole()
         mol.atom = atom_coordinates
         mol.basis = basis
-        mol.max_memory = 8000
+        mol.max_memory = 4000
         mol.build()
 
         return mol

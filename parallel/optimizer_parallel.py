@@ -1,8 +1,6 @@
-from engines.pyscf.optimizer import FactoryOptimizerPySCF
-from engines.utils import factory_mol, factory_optimizer
-from engines.pyscf.mol import FactoryMolPySCF
 from pathlib import Path
 import logging
+from strategies.run_strategy import SetOptimizerStrategy
 
 LOGS_DIR = Path("./logs")
 LOGS_DIR.mkdir(exist_ok=True)
@@ -16,25 +14,23 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-def geometry_optimizer(xyz_file: Path, OPT_DIR: Path) -> None:
+def geometry_optimizer(
+        xyz_file: Path,
+        OPT_DIR: Path,
+        **kwargs
+    ) -> None:
 
     try:
         opt_xyz_file = OPT_DIR / f"opt_{xyz_file.name}"
         if not opt_xyz_file.exists():
 
-            construct_mol = factory_mol(FactoryMolPySCF())
-            mol = construct_mol.create_mol(
-                xyz_file=xyz_file.read_text(),
-                basis="cc-pvdz"
-            )
+            set_strategy = SetOptimizerStrategy(kwargs['engine'])
 
-            optimizer = factory_optimizer(
-                FactoryOptimizerPySCF(
-                    mol=mol,
-                    xc="m06-2x"
-                )
+            dict_optimize = set_strategy.optimizer(
+                xyz_file=xyz_file,
+                basis=kwargs['basis'],
+                xc=kwargs['xc']
             )
-            dict_optimize = optimizer.opt_geometry(maxsteps=200, verbose=0)
 
             converged = dict_optimize['converged']
             if converged:
