@@ -7,3 +7,4 @@ dependencies:
   - psi4
   - pyscf
   - geometric
+  - streamlit
