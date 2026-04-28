@@ -57,12 +57,12 @@ DFT/
 │   └── workflow_frequencies_gui.py # Workflow de frequências (GUI)
 ├── utils/
 │   └── prompt.py             # Coleta de parâmetros (terminal e GUI)
-├── components/
+├── gui_components/
 │   ├── styles.py             # CSS global da interface gráfica
 │   └── sidebar.py            # Sidebar de configuração
-├── pages/
-│   ├── execucao.py           # Aba de execução dos workflows
-│   ├── arquivos.py           # Aba de listagem de arquivos
+├── gui_pages/
+│   ├── execution.py          # Aba de execução dos workflows
+│   ├── files.py              # Aba de listagem de arquivos
 │   └── logs.py               # Aba de visualização de logs
 ├── facade.py                 # Ponto de entrada da interface gráfica (Streamlit)
 ├── main.py                   # Ponto de entrada CLI
@@ -94,9 +94,6 @@ cd DFT
 # 2. Crie o ambiente conda (ou use o Dev Container)
 conda env create -f environment.yml
 conda activate dft
-
-# 3. Instale o Streamlit (para interface gráfica)
-pip install streamlit
 ```
 
 ---
@@ -160,8 +157,8 @@ O projeto utiliza os padrões de projeto **Factory Method** e **Strategy**, orga
 - **parallel/** — funções otimizadas para execução paralela via Joblib
 - **workflows/** — coordenação de alto nível dos cálculos (terminal e GUI)
 - **results/** — exportação dos resultados em formatos de química computacional
-- **components/** — componentes reutilizáveis da interface gráfica
-- **pages/** — páginas da interface gráfica (execução, arquivos, logs)
+- **gui_components/** — componentes reutilizáveis da interface gráfica
+- **gui_pages/** — páginas da interface gráfica (execução, arquivos, logs)
 
 A adição de uma nova engine (ex: ORCA, Gaussian) requer apenas a criação de novos módulos em `engines/` e uma nova classe em `strategies/strategies.py`, sem modificar nenhum outro componente do sistema.
 
