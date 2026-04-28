@@ -1,6 +1,4 @@
-from engines.pyscf.frequency import FactoryFrequencyPySCF
-from engines.utils import factory_mol, factory_frequency
-from engines.pyscf.mol import FactoryMolPySCF
+from strategies.run_strategy import SetFrequencyStrategy
 from numpy import isrealobj
 from pathlib import Path
 import logging
@@ -18,27 +16,20 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-def frequency(xyz_file: Path, OUTPUT_DIR: Path) -> None:
+def frequency(xyz_file: Path, OUTPUT_DIR: Path, **kwargs) -> None:
     file_name = xyz_file.stem
     data_file = OUTPUT_DIR / f"{file_name}.zip"
 
     if not data_file.exists():
 
         try:
-            molecule_factory = factory_mol(FactoryMolPySCF())
-            mol = molecule_factory.create_mol(
-                xyz_file=xyz_file.read_text(),
-                basis="cc-pvdz"
-            )
-            mol.max_memory = 2000
+            set_strategy = SetFrequencyStrategy(kwargs['engine'])
 
-            freq_obj = factory_frequency(
-                FactoryFrequencyPySCF(
-                    mol=mol,
-                    xc="m06-2x"
-                )
+            result = set_strategy.frequency(
+                xyz_file=xyz_file,
+                basis=kwargs['basis'],
+                xc=kwargs['xc']
             )
-            result = freq_obj.vibrational_frequency()
             frequencies = result.frequencies
 
             if isrealobj(frequencies):
@@ -50,15 +41,20 @@ def frequency(xyz_file: Path, OUTPUT_DIR: Path) -> None:
                 for ext in ("*.cube", "*.xyz", "*.dat"):
                     for file in Path(".").glob(ext):
                         file.unlink()
+                
+                logging.info(f"{xyz_file.name} concluída")
+
+            else:
+                logging.info(f"{xyz_file.name} possui frequências imaginárias")
 
         except Exception as error:
-            logging.error(f"falha: {str(error)}")
+            logging.error(f"{xyz_file.name} falhou: {str(error)}")
 
 def zip_files(
         output_dir: Path,
         file_name: str,
         remove_originals: bool = True
-) -> None:
+    ) -> None:
     
     molden_file = output_dir / f"{file_name}.molden"
     cube_file = output_dir / f"{file_name}.cube"

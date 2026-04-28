@@ -1,17 +1,18 @@
-from parallel.frequency_parallel import frequency
-from utils.prompt import prompt_strategy
+from parallel.optimizer_parallel import geometry_optimizer
+from utils.prompt import strategy_from_env
 from joblib import Parallel, delayed
 from pathlib import Path
+import os
 import logging
 
+XYZ_DIR = Path("./xyz_semi_opt")
 OPT_DIR = Path("./xyz_opt")
-OUTPUT_DIR = Path("./zip_dir")
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+OPT_DIR.mkdir(exist_ok=True)
 
 LOGS_DIR = Path("./logs")
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
-log_file = LOGS_DIR / "parallel_frequencies.log"
+log_file = LOGS_DIR / "parallel_optimization.log"
 
 logging.basicConfig(
     filename=str(log_file),
@@ -21,16 +22,16 @@ logging.basicConfig(
 )
 
 try:
-    strategy = prompt_strategy()
+    n_jobs   = int(os.environ.get("DFT_NJOBS", 4))
+    strategy = strategy_from_env()
 
-    Parallel(n_jobs=4)(
-        delayed(frequency)
-        (
+    Parallel(n_jobs=n_jobs)(
+        delayed(geometry_optimizer)(
             xyz_file=xyz_file,
-            OUTPUT_DIR=OUTPUT_DIR,
+            OPT_DIR=OPT_DIR,
             **strategy
         )
-        for xyz_file in OPT_DIR.iterdir()
+        for xyz_file in XYZ_DIR.iterdir()
     )
 
 except Exception as error:

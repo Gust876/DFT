@@ -10,4 +10,8 @@ class EngineStrategy(ABC):
     @abstractmethod
     def optimizer(self, xyz_file, **kwargs):
         pass
+
+    @abstractmethod
+    def frequency(self, xyz_file, **kwargs):
+        pass
     

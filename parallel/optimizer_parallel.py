@@ -5,7 +5,7 @@ from strategies.run_strategy import SetOptimizerStrategy
 LOGS_DIR = Path("./logs")
 LOGS_DIR.mkdir(exist_ok=True)
 
-log_file = LOGS_DIR / "frequencies_process.log"
+log_file = LOGS_DIR / "parallel_optimization.log"
 
 logging.basicConfig(
     filename=str(log_file),

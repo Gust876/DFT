@@ -8,17 +8,25 @@ import psi4
 
 class FactoryFrequencyPsi4(FactoryFrequency):
 
-    def __init__(self, xyz_file: Path):
+    def __init__(self, xyz_file: Path, xc: str, basis: str):
         self.xyz_file = xyz_file
+        self.xc = xc
+        self.basis = basis
 
     def factory_method(self):
-        return FrequencyPsi4(xyz_file=self.xyz_file)
+        return FrequencyPsi4(
+            xyz_file=self.xyz_file,
+            xc=self.xc,
+            basis=self.basis
+        )
     
 
 class FrequencyPsi4(FrequencyProduct):
 
-    def __init__(self, xyz_file: Path):
+    def __init__(self, xyz_file: Path, xc: str, basis: str):
         self.xyz_file = xyz_file
+        self.xc = xc
+        self.basis = basis
 
     def vibrational_frequency(self):
         psi4.set_memory("500 MB")
@@ -29,7 +37,7 @@ class FrequencyPsi4(FrequencyProduct):
         )
 
         scf_e, scf_wfn = psi4.frequency(
-            "scf/cc-pvdz",
+            f"{self.xc}/{self.basis}",
             molecule=mol,
             return_wfn=True
         )

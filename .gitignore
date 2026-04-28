@@ -1,12 +1,15 @@
+.vscode/
 .devcontainer/
+
 __pycache__/
+*.pyc
+*.pyo
 
 *.xyz
 xyz_semi_opt/
 xyz_opt/
-
 zip_dir/
+
 logs/
 
-.dockerignore
-Dockerfile
+docker/

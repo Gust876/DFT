@@ -1,23 +1,29 @@
-import subprocess
-import sys
+import argparse
 import os
+import sys
 
-def run(workflow_name: str):
-    path = os.path.join("workflows", workflow_name)
+sys.path.insert(0, os.path.dirname(__file__))
 
-    env = os.environ.copy()
-    env["PYTHONPATH"] = os.getcwd()
 
-    print(f"inicializando {workflow_name}")
-
-    subprocess.run(
-        [sys.executable, path],
-        check=True,
-        env=env,
-        capture_output=False
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Automação de cálculos DFT — otimização geométrica e frequências vibracionais"
     )
+    parser.add_argument(
+        "workflow",
+        choices=["optimizer", "frequencies"],
+        help=(
+            "'optimizer' para otimização geométrica, "
+            "'frequencies' para frequências vibracionais"
+        )
+    )
+    return parser.parse_args()
 
 
 if __name__ == '__main__':
+    args = parse_args()
 
-    run("workflow_optimizer.py")
+    if args.workflow == "optimizer":
+        import workflows.workflow_optimizer
+    elif args.workflow == "frequencies":
+        import workflows.workflow_frequencies

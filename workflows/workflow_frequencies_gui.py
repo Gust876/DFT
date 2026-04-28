@@ -1,10 +1,11 @@
 from parallel.frequency_parallel import frequency
-from utils.prompt import prompt_strategy
+from utils.prompt import strategy_from_env
 from joblib import Parallel, delayed
 from pathlib import Path
+import os
 import logging
 
-OPT_DIR = Path("./xyz_opt")
+OPT_DIR    = Path("./xyz_opt")
 OUTPUT_DIR = Path("./zip_dir")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -21,11 +22,11 @@ logging.basicConfig(
 )
 
 try:
-    strategy = prompt_strategy()
+    n_jobs   = int(os.environ.get("DFT_NJOBS", -1))
+    strategy = strategy_from_env()
 
-    Parallel(n_jobs=4)(
-        delayed(frequency)
-        (
+    Parallel(n_jobs=n_jobs)(
+        delayed(frequency)(
             xyz_file=xyz_file,
             OUTPUT_DIR=OUTPUT_DIR,
             **strategy
