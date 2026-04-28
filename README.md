@@ -171,9 +171,9 @@ A adição de uma nova engine (ex: ORCA, Gaussian) requer apenas a criação de 
 
 A interface gráfica é construída com **Streamlit** e organizada em três abas:
 
-- **▶ Execução** — seleção de engine, basis set e funcional; execução dos workflows com feedback em tempo real
-- **📂 Arquivos** — listagem dos arquivos de entrada, geometrias otimizadas e resultados gerados
-- **📋 Logs** — visualização dos logs de execução por workflow
+- **Execução** — seleção de engine, basis set e funcional; execução dos workflows com feedback em tempo real
+- **Arquivos** — listagem dos arquivos de entrada, geometrias otimizadas e resultados gerados
+- **Logs** — visualização dos logs de execução por workflow
 
 A GUI se comunica com os workflows via variáveis de ambiente (`DFT_ENGINE`, `DFT_BASIS`, `DFT_XC`, `DFT_NJOBS`), mantendo os workflows completamente independentes da interface.
 
@@ -191,4 +191,4 @@ Os logs de execução são salvos automaticamente em `logs/`:
 
 ## Licença
 
-Projeto desenvolvido para fins de pesquisa acadêmica (PIVIC) — Departamento de Química.
+Projeto desenvolvido para fins de pesquisa acadêmica (PIVIC) — Departamento de Química da Universidade Federal da Paraíba.
