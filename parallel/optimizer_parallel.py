@@ -19,6 +19,31 @@ def geometry_optimizer(
         OPT_DIR: Path,
         **kwargs
     ) -> None:
+    '''
+    Executa a otimização geométrica de uma molécula de forma isolada.
+
+    Função projetada para execução paralela via Joblib. Cada chamada
+    processa um único arquivo XYZ, verificando se o resultado já existe
+    antes de iniciar o cálculo (retomada automática de execuções interrompidas).
+    O resultado convergido é salvo como arquivo XYZ na pasta de saída.
+
+    Args:
+        xyz_file (Path): Caminho para o arquivo XYZ com a geometria inicial
+            semi-otimizada.
+        OPT_DIR (Path): Diretório de saída para as geometrias otimizadas.
+        **kwargs:
+            engine (EngineStrategy): Estratégia de engine configurada
+                (PySCFStrategy ou Psi4Strategy).
+            basis (str): Conjunto de funções de base (ex: 'cc-pvdz').
+            xc (str): Funcional de troca-correlação ou método (ex: 'm06-2x').
+
+    Returns:
+        None
+
+    Side effects:
+        - Cria arquivo XYZ com prefixo 'opt_' em OPT_DIR se a otimização convergir.
+        - Registra resultado (convergência, aviso ou erro) no arquivo de log.
+    '''
 
     try:
         opt_xyz_file = OPT_DIR / f"opt_{xyz_file.name}"

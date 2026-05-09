@@ -17,6 +17,37 @@ logging.basicConfig(
 )
 
 def frequency(xyz_file: Path, OUTPUT_DIR: Path, **kwargs) -> None:
+    '''
+    Executa o cálculo de frequências vibracionais de uma molécula de forma isolada.
+
+    Função projetada para execução paralela via Joblib. Cada chamada processa
+    uma geometria otimizada, verificando se o resultado já existe antes de iniciar
+    o cálculo (retomada automática). Apenas moléculas com todas as frequências
+    reais (estado fundamental confirmado) têm seus arquivos de saída gerados.
+
+    Args:
+        xyz_file (Path): Caminho para o arquivo XYZ com a geometria otimizada.
+        OUTPUT_DIR (Path): Diretório de saída para os arquivos comprimidos (.zip).
+        **kwargs:
+            engine (EngineStrategy): Estratégia de engine configurada
+                (PySCFStrategy ou Psi4Strategy).
+            basis (str): Conjunto de funções de base (ex: 'cc-pvdz').
+            xc (str): Funcional de troca-correlação ou método (ex: 'm06-2x').
+
+    Returns:
+        None
+
+    Side effects:
+        - Gera arquivo .molden com orbitais moleculares em OUTPUT_DIR.
+        - Gera arquivo .cube com densidade eletrônica em OUTPUT_DIR.
+        - Comprime ambos em um arquivo .zip e remove os originais.
+        - Remove arquivos temporários (.cube, .xyz, .dat) do diretório de trabalho.
+        - Registra resultado (sucesso, aviso de frequência imaginária ou erro) no log.
+
+    Note:
+        Moléculas com frequências imaginárias (complexas) indicam que a geometria
+        não corresponde a um mínimo de energia e, portanto, não são processadas.
+    '''
     file_name = xyz_file.stem
     data_file = OUTPUT_DIR / f"{file_name}.zip"
 
@@ -55,6 +86,23 @@ def zip_files(
         file_name: str,
         remove_originals: bool = True
     ) -> None:
+    '''
+    Comprime os arquivos de saída (.molden e .cube) em um arquivo .zip.
+
+    Args:
+        output_dir (Path): Diretório onde os arquivos de saída estão localizados
+            e onde o .zip será criado.
+        file_name (str): Nome base dos arquivos (sem extensão).
+        remove_originals (bool): Se True, remove os arquivos originais após a
+            compressão. Padrão: True.
+
+    Returns:
+        None
+
+    Side effects:
+        - Cria arquivo .zip contendo os arquivos .molden e .cube em output_dir.
+        - Remove os arquivos originais se remove_originals for True. 
+    '''
     
     molden_file = output_dir / f"{file_name}.molden"
     cube_file = output_dir / f"{file_name}.cube"

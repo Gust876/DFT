@@ -160,7 +160,7 @@ O projeto utiliza os padrões de projeto **Factory Method** e **Strategy**, orga
 - **gui_components/** — componentes reutilizáveis da interface gráfica
 - **gui_pages/** — páginas da interface gráfica (execução, arquivos, logs)
 
-A adição de uma nova engine (ex: ORCA, Gaussian) requer apenas a criação de novos módulos em `engines/` e uma nova classe em `strategies/strategies.py`, sem modificar nenhum outro componente do sistema.
+A adição de uma nova engine (ex: ORCA, Gaussian) requer apenas a criação de novos módulos em `engines/` e uma nova classe em `strategies/strategies.py`, bem como a implementação de uma nova classe em `results/` para encapsular os resultados da engine, sem modificar nenhum outro componente do sistema.
 
 ---
 
