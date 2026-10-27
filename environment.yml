@@ -5,6 +5,8 @@ dependencies:
   - python=3.10
   - joblib
   - psi4
-  - pyscf
   - geometric
   - streamlit
+  - rdkit
+  - pip:
+    - pyscf

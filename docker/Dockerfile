@@ -16,3 +16,4 @@ RUN pip install pyscf numpy
 COPY . .
 
 CMD ["python", "main.py"]
+
